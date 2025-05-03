@@ -1,4 +1,4 @@
-import Navbar from "./component/navbar"; // Use exact filename casing
+import Navbar from "./component/Navbar"; // Use exact filename casing
 
 const App = () => {
   return (
