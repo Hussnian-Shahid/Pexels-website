@@ -1,4 +1,4 @@
-import Navbar from "./component/Navbar"; // Use exact filename casing
+import Navbar from "./Navbar";
 
 const App = () => {
   return (
