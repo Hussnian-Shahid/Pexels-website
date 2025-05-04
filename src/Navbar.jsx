@@ -14,7 +14,7 @@ const Navbar = () => {
 
     try {
       const sendRequest = await fetch(
-        `https://api.unsplash.com/search/photos?query=${query}&per_page=30&client_id=${ACCESS_KEY}`
+        `https://api.unsplash.com/search/photos?query=${query}&per_page=30&client_id=j7-dFqz1O7QvH0zvZ8630wIsnGaF-9aOLDPptaxsU1Q`
       );
       const data = await sendRequest.json();
       setImageData(data);
@@ -46,8 +46,8 @@ const Navbar = () => {
 
   const enterFunction = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault(); // Prevent form submission
-      fetchPhotos(); // Call fetchPhotos directly
+      e.preventDefault(); 
+      fetchPhotos(); 
     }
   };
 
