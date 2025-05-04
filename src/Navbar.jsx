@@ -293,7 +293,7 @@ const Navbar = () => {
                         src={data.urls.small}
                         alt=""
                       />
-                      <a href={data.users.regular}>
+                      <a href={data.user.regular}>
                         <div className="absolute bottom-2 right-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center p-2 gap-1 duration-300 rounded-xl bg-green-500">
                           <div>
                             <MdOutlineFileDownload />
