@@ -2,17 +2,14 @@ import { useEffect, useState } from "react";
 import { MdOutlineFileDownload } from "react-icons/md";
 
 const Navbar = () => {
-  const ACCESS_KEY = import.meta.env.VITE_ACCESS_KEY;
   const [imageData, setImageData] = useState([]);
   const [query, setQuery] = useState("cat");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Remove useEffect dependency on query to prevent automatic API calls when typing
   useEffect(() => {
     // Initial fetch when component mounts
     fetchPhotos();
-    // Don't include query as a dependency
   }, []);
 
   const fetchPhotos = async () => {
@@ -77,34 +74,36 @@ const Navbar = () => {
       value: "Challenges",
     },
   ];
+
   return (
     <>
       <div className="w-full relative">
         {/* Background image div */}
         <div
-          className="absolute inset-0 bg-cover bg-center h-85"
+          className="absolute inset-0 bg-cover bg-center h-64 sm:h-72 md:h-80 lg:h-96"
           style={{ backgroundImage: "url('background.jpeg')" }}
         ></div>
-        <div className="absolute inset-0 h-85 bg-black/70"></div>
+        <div className="absolute inset-0 h-64 sm:h-72 md:h-80 lg:h-96 bg-black/70"></div>
 
         <div className="relative">
           {/* navbar */}
-          <div className="relative flex justify-between items-center md:px-25 md:py-1 font-normal z-10">
+          <div className="relative flex justify-between items-center px-4 sm:px-6 md:px-8 lg:px-12 py-4 font-normal z-10">
             {/* logo section */}
-            <div className="text-white text-2xl italic font-medium">pexels</div>
+            <div className="text-white text-xl sm:text-2xl italic font-medium">
+              pexels
+            </div>
 
             {/* other first section */}
-            <div className="flex text-white cursor-pointer gap-1 items-center text-sm ">
-              {/* explore */}
+            <div className="flex text-white cursor-pointer gap-1 items-center text-xs sm:text-sm">
+              {/* explore - hide on smallest screens */}
               <div
-                className="flex items-center hover:bg-black/40 
-              px-3 py-2 rounded-full font-semi-bold 
-              pl-5 text-sm text-white"
+                className="hidden sm:flex items-center hover:bg-black/40 
+                px-2 sm:px-3 py-1 sm:py-2 rounded-full font-semi-bold text-xs sm:text-sm text-white"
               >
                 <div>Explore</div>
                 <div>
                   <svg
-                    className="h-6 w-6 text-white"
+                    className="h-4 w-4 sm:h-6 sm:w-6 text-white"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -120,15 +119,15 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {/* licence */}
-              <div className="hover:bg-black/40 cursor-pointer px-3 py-2 rounded-full">
+              {/* licence - hide on smallest screens */}
+              <div className="hidden sm:block hover:bg-black/40 cursor-pointer px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm">
                 License
               </div>
 
               {/* three dots */}
               <div>
                 <svg
-                  className="h-13 w-13 hover:bg-black/40 cursor-pointer p-4 rounded-full"
+                  className="h-10 w-10 sm:h-12 sm:w-12 hover:bg-black/40 cursor-pointer p-3 sm:p-4 rounded-full"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -149,36 +148,36 @@ const Navbar = () => {
               </div>
 
               {/* Join */}
-              <div className="bg-white text-black rounded-lg md:px-3 text-sm md:py-2 hover:bg-gray-100">
+              <div className="bg-white text-black rounded-lg px-2 sm:px-3 text-xs sm:text-sm py-1 sm:py-2 hover:bg-gray-100">
                 Join
               </div>
             </div>
           </div>
 
           {/* input section */}
-          <div className="text-center relative text-white">
-            <div className="font-semibold md:m-auto md:pt-16 md:text-2xl">
+          <div className="text-center relative text-white px-4 sm:px-6">
+            <div className="font-semibold m-auto pt-8 sm:pt-12 md:pt-16 text-lg sm:text-xl md:text-2xl">
               <div>The best free stock photos, royalty free</div>
               <div>images & videos shared by creators.</div>
             </div>
             <form
-              className="relative md:w-110 md:mx-auto group mt-5"
+              className="relative w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto group mt-4 sm:mt-5"
               onSubmit={handleSearch}
             >
               <input
                 type="text"
                 placeholder="Search for free photos"
-                className="bg-[#F7F7F7] font-semibold text-black w-full rounded-lg outline-0 p-2 pl-28 text-sm"
+                className="bg-[#F7F7F7] font-semibold text-black w-full rounded-lg outline-0 p-2 pl-20 sm:pl-28 text-xs sm:text-sm"
                 value={query}
                 onChange={changefuntion}
                 onKeyDown={enterFunction}
               />
 
               {/* photos section */}
-              <div className="flex gap-0 absolute cursor-pointer px-2 py-1 top-0 left-0 justify-center shadow-xl items-center rounded-xl bg-[#f5f5f5]">
+              <div className="flex gap-0 absolute cursor-pointer px-1 sm:px-2 py-1 top-0 left-0 justify-center shadow-xl items-center rounded-xl bg-[#f5f5f5]">
                 <div>
                   <svg
-                    className="w-4 h-4 text-[#CDCDCD]"
+                    className="w-3 h-3 sm:w-4 sm:h-4 text-[#CDCDCD]"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -203,10 +202,12 @@ const Navbar = () => {
                     />
                   </svg>
                 </div>
-                <div className="text-sm text-black md:px-1 md:py-1">Photos</div>
+                <div className="text-xs sm:text-sm text-black px-1 py-1">
+                  Photos
+                </div>
                 <div>
                   <svg
-                    className="h-5 w-5 text-[#CDCDCD]"
+                    className="h-4 w-4 sm:h-5 sm:w-5 text-[#CDCDCD]"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
@@ -225,10 +226,10 @@ const Navbar = () => {
               {/* search section */}
               <button
                 type="submit"
-                className="hover:bg-[#EDEDED] absolute cursor-pointer group right-0 top-0 flex justify-center items-center md:px-3 md: py-2 m-0.5 rounded-lg"
+                className="hover:bg-[#EDEDED] absolute cursor-pointer group right-0 top-0 flex justify-center items-center px-2 sm:px-3 py-1 sm:py-2 m-0.5 rounded-lg"
               >
                 <svg
-                  className="w-4 h-4 text-[#CDCDCD] group-hover:text-[#4c4b4b]"
+                  className="w-3 h-3 sm:w-4 sm:h-4 text-[#CDCDCD] group-hover:text-[#4c4b4b]"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +247,7 @@ const Navbar = () => {
 
             {/* Error message */}
             {error && (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md mt-2 mx-auto max-w-lg text-sm">
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md mt-2 mx-auto max-w-xs sm:max-w-md md:max-w-lg text-xs sm:text-sm">
                 <p>{error}</p>
                 <p className="text-xs mt-1">
                   Try using simpler keywords or check your spelling.
@@ -256,66 +257,68 @@ const Navbar = () => {
           </div>
 
           {/* section */}
-          <div className="relative md:pt-22">
-            <div className="font-custom bg-white md:my-5 flex justify-center  items-center w-full  ">
-              {buttons.map((button, index) => {
-                return (
-                  <div
-                    key={button.id}
-                    className="hover:bg-[#e3e3e3] rounded-full m-1 md:px-4 text-sm font-medium md:py-2 cursor-pointer hover:text-[#383838] text-[#676767] bg-white "
-                  >
-                    {button.value}
-                  </div>
-                );
-              })}
+          <div className="relative pt-8 sm:pt-12 md:pt-16 lg:pt-20">
+            <div className="font-custom bg-white my-3 sm:my-4 md:my-5 flex justify-center items-center w-full overflow-x-auto whitespace-nowrap">
+              {buttons.map((button) => (
+                <div
+                  key={button.id}
+                  className="hover:bg-[#e3e3e3] rounded-full m-1 px-2 sm:px-3 md:px-4 text-xs sm:text-sm font-medium py-1 sm:py-2 cursor-pointer hover:text-[#383838] text-[#676767] bg-white"
+                >
+                  {button.value}
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Photos gallery section */}
-          <div className="font-custom text-2xl pl-6">Free Stock Photos</div>
+          <div className="font-custom text-xl sm:text-2xl pl-4 sm:pl-6 mt-4">
+            Free Stock Photos
+          </div>
 
           {/* Loading indicator */}
           {isLoading && (
-            <div className="flex justify-center items-center my-10">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+            <div className="flex justify-center items-center my-6 sm:my-8 md:my-10">
+              <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-t-2 border-b-2 border-green-500"></div>
             </div>
           )}
 
           {/* Photos grid */}
           {!isLoading && !error && (
-            <div className="grid grid-cols-3 gap-5 p-5 cursor-pointer">
-              {imageData?.results?.map((data) => {
-                return (
-                  <div key={data.id} className="">
-                    <div className="relative group">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-5 p-3 sm:p-4 md:p-5 cursor-pointer">
+              {imageData?.results?.map((data) => (
+                <div key={data.id}>
+                  <div className="relative group">
+                    <img
+                      className="rounded-lg w-full aspect-square object-cover group-hover:scale-102 transition-all duration-300"
+                      src={data.urls.small}
+                      alt="image"
+                    />
+                    <a
+                      href={data.links.download}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="absolute bottom-2 right-2 text-white text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center p-1 sm:p-2 gap-1 duration-300 rounded-xl bg-green-500">
+                        <div>
+                          <MdOutlineFileDownload />
+                        </div>
+                        <div>Download</div>
+                      </div>
+                    </a>
+                    <div className="absolute bottom-2 left-2 text-white text-xs sm:text-sm opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center p-1 sm:p-2 gap-1 duration-300 rounded-xl">
                       <img
-                        className="rounded-lg w-full aspect-square object-cover group-hover:scale-102 transition-all duration-300"
-                        src={data.urls.small}
+                        src={data.user.profile_image.small}
+                        className="rounded-full w-5 h-5 sm:w-6 sm:h-6"
                         alt=""
                       />
-                      <a href={data.links.download} target="_blank" >
-                        <div className="absolute bottom-2 right-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center p-2 gap-1 duration-300 rounded-xl bg-green-500">
-                          <div>
-                            <MdOutlineFileDownload />
-                          </div>
-                          <div>DownLoad</div>
-                        </div>
-                      </a>
-                      <div className="absolute bottom-2 left-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center p-2 gap-1 duration-300 rounded-xl">
-                        <img
-                          src={data.user.profile_image.small}
-                          className="rounded-full"
-                          alt=""
-                        />
-                        <div>
-                          {data.user.first_name}
-                          {data.user.last_name}
-                        </div>
+                      <div className="truncate max-w-[100px] sm:max-w-[150px]">
+                        {data.user.first_name}
+                        {data.user.last_name}
                       </div>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           )}
         </div>
