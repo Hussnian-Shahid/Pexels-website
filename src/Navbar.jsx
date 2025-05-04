@@ -8,6 +8,13 @@ const Navbar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Remove useEffect dependency on query to prevent automatic API calls when typing
+  useEffect(() => {
+    // Initial fetch when component mounts
+    fetchPhotos();
+    // Don't include query as a dependency
+  }, []);
+
   const fetchPhotos = async () => {
     setIsLoading(true);
     setError(null);
@@ -36,18 +43,14 @@ const Navbar = () => {
     }
   };
 
-  useEffect(() => {
-    fetchPhotos();
-  }, [query]);
-
   const changefuntion = (e) => {
     setQuery(e.target.value);
   };
 
   const enterFunction = (e) => {
     if (e.key === "Enter") {
-      e.preventDefault(); 
-      fetchPhotos(); 
+      e.preventDefault();
+      fetchPhotos();
     }
   };
 
