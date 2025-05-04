@@ -2,11 +2,16 @@ import { useEffect, useState } from "react";
 import { MdOutlineFileDownload } from "react-icons/md";
 
 const Navbar = () => {
-  const ACCESS_KEY = import.meta.env.VITE_ACCESS_KEY ;
+  const ACCESS_KEY = import.meta.env.VITE_ACCESS_KEY;
   const [imageData, setImageData] = useState([]);
   const [query, setQuery] = useState("cat");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const fetchPhotos = async () => {
+    setIsLoading(true);
+    setError(null);
+
     try {
       const sendRequest = await fetch(
         `https://api.unsplash.com/search/photos?query=${query}&per_page=30&client_id=${ACCESS_KEY}`
@@ -14,15 +19,26 @@ const Navbar = () => {
       const data = await sendRequest.json();
       setImageData(data);
       console.log(data.results);
+
+      // Check if no results were found
+      if (data.results && data.results.length === 0) {
+        setError(
+          `No results found for "${query}". Please try refining your search.`
+        );
+      }
+
       return data;
     } catch (error) {
       console.error("Failed to fetch the API", error);
+      setError("Something went wrong. Please try again later.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     fetchPhotos();
-  }, [query]); // Add query as a dependency so it refetches when query changes
+  }, [query]);
 
   const changefuntion = (e) => {
     setQuery(e.target.value);
@@ -224,6 +240,16 @@ const Navbar = () => {
                 </svg>
               </button>
             </form>
+
+            {/* Error message */}
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-md mt-2 mx-auto max-w-lg text-sm">
+                <p>{error}</p>
+                <p className="text-xs mt-1">
+                  Try using simpler keywords or check your spelling.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* section */}
@@ -243,40 +269,50 @@ const Navbar = () => {
           </div>
 
           {/* Photos gallery section */}
-          <div className="font-custom text-2xl pl-6  ">Free Stock Photos </div>
+          <div className="font-custom text-2xl pl-6">Free Stock Photos</div>
 
-          <div className="grid grid-cols-3 gap-5 p-5 cursor-pointer ">
-            {imageData?.results?.map((data) => {
-              return (
-                <div key={data.id} className="">
-                  <div className="relative group ">
-                    <img
-                      className="rounded-lg w-full aspect-square object-cover group-hover:scale-102 transition-all duration-300 "
-                      src={data.urls.small}
-                      alt=""
-                    />
-                    <div className="absolute bottom-2 right-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center p-2 gap-1 duration-300 rounded-xl bg-green-500">
-                      <div>
-                        <MdOutlineFileDownload />
-                      </div>
-                      <div>DownLoad</div>
-                    </div>
-                    <div className="absolute bottom-2 left-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center p-2 gap-1 duration-300 rounded-xl ">
+          {/* Loading indicator */}
+          {isLoading && (
+            <div className="flex justify-center items-center my-10">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+            </div>
+          )}
+
+          {/* Photos grid */}
+          {!isLoading && !error && (
+            <div className="grid grid-cols-3 gap-5 p-5 cursor-pointer">
+              {imageData?.results?.map((data) => {
+                return (
+                  <div key={data.id} className="">
+                    <div className="relative group">
                       <img
-                        src={data.user.profile_image.small}
-                        className=" rounded-full"
+                        className="rounded-lg w-full aspect-square object-cover group-hover:scale-102 transition-all duration-300"
+                        src={data.urls.small}
                         alt=""
                       />
-                      <div>
-                        {data.user.first_name}
-                        {data.user.last_name}
+                      <div className="absolute bottom-2 right-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center p-2 gap-1 duration-300 rounded-xl bg-green-500">
+                        <div>
+                          <MdOutlineFileDownload />
+                        </div>
+                        <div>DownLoad</div>
+                      </div>
+                      <div className="absolute bottom-2 left-2 text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity flex justify-center items-center p-2 gap-1 duration-300 rounded-xl">
+                        <img
+                          src={data.user.profile_image.small}
+                          className="rounded-full"
+                          alt=""
+                        />
+                        <div>
+                          {data.user.first_name}
+                          {data.user.last_name}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </>
